@@ -9,6 +9,7 @@ class Background extends StatelessWidget {
   final double imageVerticalOffset;
   final double imageHorizontalOffset;
   final bool centerBackground;
+  final List<Alignment> alignments;
 
   Background({
     required this.imageVerticalOffset,
@@ -18,6 +19,7 @@ class Background extends StatelessWidget {
     required this.background,
     required this.speed,
     required this.imageHorizontalOffset,
+    this.alignments = const [],
   });
 
   @override
@@ -27,12 +29,16 @@ class Background extends StatelessWidget {
       children: [
         for (int i = 0; i < totalPage; i++)
           BackgroundImage(
-              centerBackground: centerBackground,
-              imageHorizontalOffset: imageHorizontalOffset,
-              imageVerticalOffset: imageVerticalOffset,
-              id: totalPage - i,
-              speed: speed,
-              background: background[totalPage - i - 1]),
+            centerBackground: centerBackground,
+            imageHorizontalOffset: imageHorizontalOffset,
+            imageVerticalOffset: imageVerticalOffset,
+            id: totalPage - i,
+            speed: speed,
+            background: background[totalPage - i - 1],
+            alignment: alignments.isNotEmpty
+                ? alignments[totalPage - i - 1]
+                : Alignment.center,
+          ),
         child,
       ],
     );

@@ -9,6 +9,7 @@ class BackgroundImage extends StatelessWidget {
   final double speed;
   final double imageHorizontalOffset;
   final bool centerBackground;
+  final Alignment alignment;
 
   BackgroundImage({
     required this.id,
@@ -17,6 +18,7 @@ class BackgroundImage extends StatelessWidget {
     required this.imageVerticalOffset,
     required this.centerBackground,
     required this.imageHorizontalOffset,
+    this.alignment = Alignment.center,
   });
 
   @override
@@ -32,9 +34,15 @@ class BackgroundImage extends StatelessWidget {
             child: centerBackground
                 ? Container(
                     width: MediaQuery.of(context).size.width,
-                    child: child!,
+                    child: Align(
+                      alignment: alignment,
+                      child: child!,
+                    ),
                   )
-                : child!,
+                : Align(
+                    alignment: alignment,
+                    child: child!,
+                  ),
           ),
         ]);
       },

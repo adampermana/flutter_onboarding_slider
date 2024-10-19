@@ -67,6 +67,9 @@ class OnBoardingSlider extends StatefulWidget {
   /// Do not pass [imageHorizontalOffset] when you turn this flag to true otherwise that will get ignored
   final bool centerBackground;
 
+  /// List of alignment for each background image
+  final List<Alignment> backgroundImageAlignments;
+
   /// Toggle bottom page controller visibilty.
   final bool addController;
 
@@ -136,6 +139,7 @@ class OnBoardingSlider extends StatefulWidget {
     this.indicatorAbove = false,
     this.indicatorPosition = 90,
     this.skipFunctionOverride,
+    this.backgroundImageAlignments = const [],
   });
 
   @override
@@ -199,6 +203,7 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                 background: widget.background,
                 speed: widget.speed,
                 totalPage: widget.totalPage,
+                alignments: widget.backgroundImageAlignments,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,

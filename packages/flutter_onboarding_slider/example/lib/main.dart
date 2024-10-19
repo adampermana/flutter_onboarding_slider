@@ -28,6 +28,7 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
+      centerBackground: true,
       finishButtonText: 'Register',
       onFinish: () {
         Navigator.push(

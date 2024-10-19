@@ -1,3 +1,9 @@
+* Bug Fixes background image position
+
+## [1.0.11] - 2023.10.16
+
+* Bug Fixes
+
 ## [1.0.11] - 2023.10.16
 
 * Bug Fixes
