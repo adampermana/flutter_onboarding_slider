@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.example">
+    package="com.flutter_onboarding_slider">
    <application
         android:label="example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".MainActivity"
+            android:name=".OnBoardingSlider"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

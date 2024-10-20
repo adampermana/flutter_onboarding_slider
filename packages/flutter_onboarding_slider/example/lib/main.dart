@@ -2,10 +2,39 @@ import 'package:example/screens/login_page.dart';
 import 'package:example/screens/register_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Set orientation based on device type
+  setPreferredOrientations().then((_) {
+    runApp(const MyApp());
+  });
+}
+
+Future<void> setPreferredOrientations() async {
+  // Get the current screen width
+  var screenWidth = WidgetsBinding.instance.window.physicalSize.width /
+      WidgetsBinding.instance.window.devicePixelRatio;
+
+  // Determine if the device is a tablet or a phone
+  bool isTablet = screenWidth > 600;
+
+  if (isTablet) {
+    // Allow both portrait and landscape for tablets
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  } else {
+    // Lock to portrait mode for phones
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -82,6 +111,11 @@ class MyHome extends StatelessWidget {
           'assets/slide_3.png',
           height: 400,
         ),
+      ],
+      backgroundImageAlignments: const [
+        Alignment.center,
+        Alignment.center,
+        Alignment.center,
       ],
       speed: 1.8,
       pageBodies: [
