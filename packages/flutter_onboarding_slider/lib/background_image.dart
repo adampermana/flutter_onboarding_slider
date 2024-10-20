@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_onboarding_slider/page_offset_provider.dart';
-import 'package:provider/provider.dart';
+part of flutter_onboarding_slider;
 
 class BackgroundImage extends StatelessWidget {
   final int id;

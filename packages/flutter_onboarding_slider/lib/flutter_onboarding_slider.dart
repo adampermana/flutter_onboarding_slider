@@ -2,17 +2,15 @@ library flutter_onboarding_slider;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding_slider/background_controller.dart';
-import 'package:flutter_onboarding_slider/background_final_button.dart';
-import 'package:flutter_onboarding_slider/onboarding_navigation_bar.dart';
-import 'package:flutter_onboarding_slider/page_offset_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'background.dart';
-import 'background_body.dart';
-
-export 'background.dart';
-export 'background_final_button.dart';
+part 'background_body.dart';
+part 'background_controller.dart';
+part 'background_final_button.dart';
+part 'background_image.dart';
+part 'background.dart';
+part 'onboarding_navigation_bar.dart';
+part 'page_offset_provider.dart';
 
 class OnBoardingSlider extends StatefulWidget {
   /// Number of total pages.

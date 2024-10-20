@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_onboarding_slider/background_image.dart';
+part of flutter_onboarding_slider;
 
 class Background extends StatelessWidget {
   final Widget child;

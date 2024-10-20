@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+part of flutter_onboarding_slider;
 
 class PageOffsetNotifier with ChangeNotifier {
   double _offset = 0;

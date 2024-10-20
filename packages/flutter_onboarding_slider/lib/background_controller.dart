@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of flutter_onboarding_slider;
 
 class BackgroundController extends StatelessWidget {
   final int currentPage;

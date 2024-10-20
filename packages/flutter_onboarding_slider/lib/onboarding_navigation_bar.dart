@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+part of flutter_onboarding_slider;
 
 class OnBoardingNavigationBar extends StatelessWidget
     implements ObstructingPreferredSizeWidget {
