@@ -37,39 +37,68 @@ class OnBoardingNavigationBar extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     if (hideNavigationBar) return SizedBox.shrink();
-    return CupertinoNavigationBar(
-      automaticallyImplyLeading: false,
-      leading: leading,
-      middle: middle,
-      trailing: currentPage == totalPage - 1
-          ? finishButton == null
-              ? SizedBox.shrink()
-              : Container(
-                  color: Colors.transparent,
-                  child: TextButton(
-                    onPressed: () => onFinish?.call(),
-                    child: finishButton!,
-                  ),
-                )
-          : skipTextButton == null
-              ? SizedBox.shrink()
-              : Container(
-                  color: Colors.transparent,
-                  child: TextButton(
-                    onPressed: () {
-                      if (skipFunctionOverride == null) {
-                        onSkip();
-                      } else {
-                        skipFunctionOverride!();
-                      }
-                    },
-                    child: skipTextButton!,
-                  ),
-                ),
-      border: Border(
-        bottom: BorderSide(color: Colors.transparent),
+
+    return Container(
+      height: preferredSize.height + MediaQuery.of(context).padding.top,
+      decoration: BoxDecoration(
+        color: headerBackgroundColor,
+        border: Border(
+          bottom: BorderSide(color: Colors.transparent),
+        ),
       ),
-      backgroundColor: headerBackgroundColor,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Leading widget
+              leading ?? SizedBox(),
+
+              // Middle widget
+              Expanded(
+                child: Center(
+                  child: middle ?? SizedBox.shrink(),
+                ),
+              ),
+
+              // Trailing widget
+              SizedBox(
+                width: 44,
+                child: currentPage == totalPage - 1
+                    ? finishButton == null
+                        ? SizedBox.shrink()
+                        : TextButton(
+                            onPressed: () => onFinish?.call(),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: finishButton!,
+                          )
+                    : skipTextButton == null
+                        ? SizedBox.shrink()
+                        : TextButton(
+                            onPressed: () {
+                              if (skipFunctionOverride == null) {
+                                onSkip();
+                              } else {
+                                skipFunctionOverride!();
+                              }
+                            },
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: skipTextButton!,
+                          ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
