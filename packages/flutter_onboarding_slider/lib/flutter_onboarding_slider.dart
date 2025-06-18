@@ -159,7 +159,8 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
     return ChangeNotifierProvider(
       create: (BuildContext context) => PageOffsetNotifier(_pageController),
       child: Scaffold(
-        backgroundColor: widget.pageBackgroundColor ?? null,
+        backgroundColor: widget.pageBackgroundColor ??
+            Theme.of(context).scaffoldBackgroundColor,
         floatingActionButton: widget.hasFloatingButton
             ? BackgroundFinalButton(
                 buttonTextStyle: widget.finishButtonTextStyle,
@@ -175,6 +176,8 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
               )
             : SizedBox.shrink(),
         body: CupertinoPageScaffold(
+          backgroundColor: widget.pageBackgroundColor ??
+              Theme.of(context).scaffoldBackgroundColor,
           navigationBar: OnBoardingNavigationBar(
             skipFunctionOverride: widget.skipFunctionOverride,
             leading: widget.leading,
