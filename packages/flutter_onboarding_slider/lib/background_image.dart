@@ -23,29 +23,29 @@ class BackgroundImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PageOffsetNotifier>(
       builder: (context, notifier, child) {
-        return Stack(children: [
-          Positioned(
-            top: imageVerticalOffset,
-            left: MediaQuery.of(context).size.width * ((id - 1) * speed) -
-                speed * notifier.offset +
-                (centerBackground ? 0 : imageHorizontalOffset),
-            child: centerBackground
-                ? Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Align(
-                      alignment: alignment,
-                      child: child!,
-                    ),
-                  )
-                : Align(
-                    alignment: alignment,
-                    child: child!,
-                  ),
+        double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
+        double offset = notifier.offset;
+        double pagePosition = (id - 1) * screenWidth - offset;
+
+        return Positioned(
+          top: 0,
+          left: pagePosition,
+          child: SizedBox(
+            width: screenWidth,
+            height: screenHeight,
+            child: child!,
           ),
-        ]);
+        );
       },
-      child: Container(
-        child: background,
+      child: ClipRect(
+        child: SizedBox.expand(
+          child: FittedBox(
+            fit: BoxFit.cover,
+            alignment: alignment,
+            child: background,
+          ),
+        ),
       ),
     );
   }

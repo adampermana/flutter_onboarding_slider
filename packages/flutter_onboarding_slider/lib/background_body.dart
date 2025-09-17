@@ -1,3 +1,4 @@
+// background_body.dart
 part of flutter_onboarding_slider;
 
 class BackgroundBody extends StatelessWidget {

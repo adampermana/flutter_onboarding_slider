@@ -1,3 +1,4 @@
+// background.dart
 part of flutter_onboarding_slider;
 
 class Background extends StatelessWidget {
@@ -24,22 +25,23 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(background.length == totalPage);
-    return Stack(
-      children: [
-        for (int i = 0; i < totalPage; i++)
-          BackgroundImage(
-            centerBackground: centerBackground,
-            imageHorizontalOffset: imageHorizontalOffset,
-            imageVerticalOffset: imageVerticalOffset,
-            id: totalPage - i,
-            speed: speed,
-            background: background[totalPage - i - 1],
-            alignment: alignments.isNotEmpty
-                ? alignments[totalPage - i - 1]
-                : Alignment.center,
-          ),
-        child,
-      ],
+    return Positioned.fill(
+      child: Stack(
+        children: [
+          for (int i = 0; i < totalPage; i++)
+            BackgroundImage(
+              centerBackground: centerBackground,
+              imageHorizontalOffset: imageHorizontalOffset,
+              imageVerticalOffset: imageVerticalOffset,
+              id: i + 1,
+              speed: speed,
+              background: background[i],
+              alignment:
+                  alignments.isNotEmpty ? alignments[i] : Alignment.center,
+            ),
+          child,
+        ],
+      ),
     );
   }
 }

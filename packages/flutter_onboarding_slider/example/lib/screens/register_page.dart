@@ -10,11 +10,7 @@ class RegisterPage extends StatelessWidget {
       navigationBar: const CupertinoNavigationBar(
         middle: Text('Register Page'),
         backgroundColor: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.transparent,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Colors.transparent)),
       ),
       child: Container(),
     );
