@@ -23,6 +23,7 @@ class OnBoardingSlider extends StatefulWidget {
   final String? finishButtonText;
   final TextStyle finishButtonTextStyle;
   final Color? controllerColor;
+  final Color? controllerColorBold;
   final bool addButton;
   final bool centerBackground;
   final List<Alignment> backgroundImageAlignments;
@@ -44,6 +45,7 @@ class OnBoardingSlider extends StatefulWidget {
     this.finishButtonStyle,
     this.finishButtonText,
     this.controllerColor,
+    this.controllerColorBold,
     this.addController = true,
     this.centerBackground = false,
     this.addButton = true,
@@ -98,36 +100,41 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                 ),
                 // Fixed bottom section untuk indicator dan button
                 Positioned(
-                  bottom: 10,
+                  bottom: 20,
                   left: 0,
                   right: 0,
-                  child: Container(
+                  child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (widget.addController)
-                          Container(
-                            padding: EdgeInsets.only(bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: _buildPageIndicator(context),
+                    child: SizedBox(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 60,
+                        children: [
+                          if (widget.addController)
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: SizedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: _buildPageIndicator(context),
+                                ),
+                              ),
                             ),
-                          ),
-                        if (widget.hasFloatingButton)
-                          BackgroundFinalButton(
-                            buttonTextStyle: widget.finishButtonTextStyle,
-                            skipIcon: widget.skipIcon,
-                            addButton: widget.addButton,
-                            currentPage: _currentPage,
-                            pageController: _pageController,
-                            totalPage: widget.totalPage,
-                            onPageFinish: widget.onFinish,
-                            finishButtonStyle: widget.finishButtonStyle,
-                            buttonText: widget.finishButtonText,
-                            hasSkip: widget.hasSkip,
-                          ),
-                      ],
+                          if (widget.hasFloatingButton)
+                            BackgroundFinalButton(
+                              buttonTextStyle: widget.finishButtonTextStyle,
+                              skipIcon: widget.skipIcon,
+                              addButton: widget.addButton,
+                              currentPage: _currentPage,
+                              pageController: _pageController,
+                              totalPage: widget.totalPage,
+                              onPageFinish: widget.onFinish,
+                              finishButtonStyle: widget.finishButtonStyle,
+                              buttonText: widget.finishButtonText,
+                              hasSkip: widget.hasSkip,
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -144,25 +151,37 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
     for (int i = 0; i < widget.totalPage; i++) {
       list.add(
         i == _currentPage
-            ? _indicator(true, context)
+            ? _indicatorBold(true, context)
             : _indicator(false, context),
       );
     }
     return list;
   }
 
-  Widget _indicator(bool isActive, BuildContext context) {
+  Widget _indicatorBold(bool isActive, BuildContext context) {
+    final base = widget.controllerColor ?? Colors.white;
     return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(horizontal: 4.0),
+      duration: const Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
       height: 8.0,
-      width: isActive ? 28.0 : 8.0,
+      width: 8.0,
       decoration: BoxDecoration(
-        color:
-            isActive
-                ? widget.controllerColor ?? Colors.white
-                : (widget.controllerColor ?? Colors.white).withOpacity(0.5),
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: isActive ? base : base.withOpacity(0.4),
+        shape: BoxShape.circle,
+      ),
+    );
+  }
+
+  Widget _indicator(bool isActive, BuildContext context) {
+    final base = widget.controllerColorBold ?? Colors.white;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      height: 8.0,
+      width: 8.0,
+      decoration: BoxDecoration(
+        color: isActive ? base : base,
+        shape: BoxShape.circle,
       ),
     );
   }

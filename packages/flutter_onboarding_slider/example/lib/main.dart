@@ -77,7 +77,8 @@ class MyHome extends StatelessWidget {
       },
       finishButtonStyle: FinishButtonStyle(backgroundColor: kDarkBlueColor),
 
-      controllerColor: kDarkBlueColor,
+      controllerColor: Colors.red,
+      controllerColorBold: Colors.white,
       totalPage: 3,
       // headerBackgroundColor: Colors.transparent,
       pageBackgroundColor: Colors.white,
@@ -101,9 +102,9 @@ class MyHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 300),
+              const SizedBox(height: 410),
               Text(
-                'On your way...',
+                'Start now!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -113,7 +114,7 @@ class MyHome extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'to find the perfect looking Onboarding for your app?',
+                'Where everything is possible and customize your onboarding.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -132,9 +133,9 @@ class MyHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 480),
+              const SizedBox(height: 410),
               Text(
-                'You’ve reached your destination.',
+                'Start now!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -144,7 +145,7 @@ class MyHome extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Sliding with animation',
+                'Where everything is possible and customize your onboarding.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -163,7 +164,7 @@ class MyHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 480),
+              const SizedBox(height: 410),
               Text(
                 'Start now!',
                 textAlign: TextAlign.center,
