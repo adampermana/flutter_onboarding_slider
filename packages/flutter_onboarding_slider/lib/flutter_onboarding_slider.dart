@@ -1,14 +1,13 @@
 library flutter_onboarding_slider;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+part 'background.dart';
 part 'background_body.dart';
 part 'background_controller.dart';
 part 'background_final_button.dart';
 part 'background_image.dart';
-part 'background.dart';
 part 'page_offset_provider.dart';
 
 class OnBoardingSlider extends StatefulWidget {
@@ -32,7 +31,17 @@ class OnBoardingSlider extends StatefulWidget {
   final double imageHorizontalOffset;
   final bool hasFloatingButton;
   final bool hasSkip;
+  final bool showNextArrow;
+  final bool showStartArrow;
   final Icon skipIcon;
+
+  final IconData? startArrowIcon;
+
+  final Color? arrowColor;
+
+  final double arrowSize;
+
+  final double arrowGap;
 
   OnBoardingSlider({
     required this.totalPage,
@@ -47,8 +56,14 @@ class OnBoardingSlider extends StatefulWidget {
     this.controllerColor,
     this.controllerColorBold,
     this.addController = true,
+    this.startArrowIcon,
+    this.arrowColor,
+    this.arrowSize = 20,
+    this.arrowGap = 8,
     this.centerBackground = false,
     this.addButton = true,
+    this.showNextArrow = false,
+    this.showStartArrow = false,
     this.imageVerticalOffset = 0,
     this.imageHorizontalOffset = 0,
     this.hasFloatingButton = true,
@@ -126,6 +141,12 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                               skipIcon: widget.skipIcon,
                               addButton: widget.addButton,
                               currentPage: _currentPage,
+                              showNextArrow: widget.showNextArrow,
+                              showStartArrow: widget.showStartArrow,
+                              startArrowIcon: widget.startArrowIcon,
+                              arrowColor: widget.arrowColor,
+                              arrowSize: widget.arrowSize,
+                              arrowGap: widget.arrowGap,
                               pageController: _pageController,
                               totalPage: widget.totalPage,
                               onPageFinish: widget.onFinish,

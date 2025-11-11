@@ -1,3 +1,7 @@
+* Feat Icons for button
+
+## [1.0.11] - 2023.10.16
+
 * Bug Fixes background image position
 
 ## [1.0.11] - 2023.10.16

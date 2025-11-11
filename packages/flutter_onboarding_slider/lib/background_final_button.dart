@@ -43,6 +43,28 @@ class BackgroundFinalButton extends StatelessWidget {
   final Icon skipIcon;
   final FinishButtonStyle? finishButtonStyle;
 
+  // ====== NEW: Arrow customization ======
+  /// Tampilkan arrow di kanan label "Selanjutnya"
+  final bool showNextArrow;
+
+  /// Tampilkan arrow di kanan label "Start"
+  final bool showStartArrow;
+
+  /// Ikon panah untuk "Selanjutnya" (default: Icons.arrow_forward_rounded)
+  final IconData? nextArrowIcon;
+
+  /// Ikon panah untuk "Start" (default: Icons.arrow_forward_rounded)
+  final IconData? startArrowIcon;
+
+  /// Warna ikon panah (default mengikuti foregroundColor / text color)
+  final Color? arrowColor;
+
+  /// Ukuran ikon panah
+  final double arrowSize;
+
+  /// Jarak antara teks dan ikon
+  final double arrowGap;
+
   BackgroundFinalButton({
     required this.currentPage,
     required this.pageController,
@@ -54,13 +76,22 @@ class BackgroundFinalButton extends StatelessWidget {
     required this.hasSkip,
     required this.skipIcon,
     this.finishButtonStyle = const FinishButtonStyle(),
+
+    // defaults (boleh diubah sesuai preferensi)
+    this.showNextArrow = false,
+    this.showStartArrow = false,
+    this.nextArrowIcon = Icons.arrow_forward_rounded,
+    this.startArrowIcon = Icons.arrow_forward_rounded,
+    this.arrowColor,
+    this.arrowSize = 20,
+    this.arrowGap = 8,
   });
 
   @override
   Widget build(BuildContext context) {
     return addButton
         ? Container(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           width: MediaQuery.of(context).size.width - 60,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -68,7 +99,7 @@ class BackgroundFinalButton extends StatelessWidget {
               elevation: finishButtonStyle?.elevation ?? 0,
               foregroundColor: finishButtonStyle?.foregroundColor,
               backgroundColor: finishButtonStyle?.backgroundColor,
-              padding: EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(vertical: 15),
             ),
             onPressed:
                 () =>
@@ -77,16 +108,67 @@ class BackgroundFinalButton extends StatelessWidget {
                         : _goToNextPage(context),
             child:
                 currentPage == totalPage - 1
-                    ? Text(buttonText ?? "Start", style: buttonTextStyle)
-                    : Text("Selanjutnya", style: buttonTextStyle),
+                    ? _buildLabelWithArrow(
+                      label: buttonText ?? "Start",
+                      showArrow: showStartArrow,
+                      iconData: startArrowIcon,
+                      context: context,
+                    )
+                    : _buildLabelWithArrow(
+                      label: "Selanjutnya",
+                      showArrow: showNextArrow,
+                      iconData: nextArrowIcon,
+                      context: context,
+                    ),
           ),
         )
-        : SizedBox.shrink();
+        : const SizedBox.shrink();
+  }
+
+  /// Builder label + arrow di kanan teks
+  Widget _buildLabelWithArrow({
+    required String label,
+    required bool showArrow,
+    required IconData? iconData,
+    required BuildContext context,
+  }) {
+    // Warna ikon prioritas:
+    // 1) arrowColor (jika di-set)
+    // 2) finishButtonStyle.foregroundColor (jika ada)
+    // 3) kontras otomatis dari background tombol
+    final bg = finishButtonStyle?.backgroundColor;
+    final autoContrast =
+        (bg == null)
+            ? Theme.of(context).colorScheme.onPrimary
+            : (ThemeData.estimateBrightnessForColor(bg) == Brightness.dark
+                ? Colors.white
+                : Colors.black87);
+    final Color resolvedIconColor =
+        arrowColor ?? finishButtonStyle?.foregroundColor ?? autoContrast;
+
+    // Jika tak ingin panah → teks saja
+    if (!showArrow || iconData == null) {
+      return Center(
+        child: Text(label, style: buttonTextStyle, textAlign: TextAlign.center),
+      );
+    }
+
+    // Row dibungkus Center agar konten benar-benar center di tombol lebar
+    return Center(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label, style: buttonTextStyle),
+          SizedBox(width: arrowGap),
+          Icon(iconData, size: arrowSize, color: resolvedIconColor),
+        ],
+      ),
+    );
   }
 
   void _goToNextPage(BuildContext context) {
     pageController.nextPage(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.ease,
     );
   }
