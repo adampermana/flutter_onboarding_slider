@@ -21,6 +21,7 @@ class OnBoardingSlider extends StatefulWidget {
   final FinishButtonStyle? finishButtonStyle;
   final String? finishButtonText;
   final TextStyle finishButtonTextStyle;
+  final TextStyle buttonTextStyle;
   final Color? controllerColor;
   final Color? controllerColorBold;
   final bool addButton;
@@ -72,6 +73,7 @@ class OnBoardingSlider extends StatefulWidget {
       fontSize: 20,
       color: Colors.white,
     ),
+    this.buttonTextStyle = const TextStyle(fontSize: 16, color: Colors.black),
     this.skipIcon = const Icon(Icons.arrow_forward, color: Colors.white),
     this.backgroundImageAlignments = const [],
   });
@@ -154,6 +156,7 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                               finishButtonStyle: widget.finishButtonStyle,
                               buttonText: widget.finishButtonText,
                               hasSkip: widget.hasSkip,
+                              buttonTextStyle: widget.buttonTextStyle,
                             ),
                         ],
                       ),
