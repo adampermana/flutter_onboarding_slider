@@ -137,7 +137,8 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                             ),
                           if (widget.hasFloatingButton)
                             BackgroundFinalButton(
-                              buttonTextStyle: widget.finishButtonTextStyle,
+                              buttonTextStyleFinish:
+                                  widget.finishButtonTextStyle,
                               skipIcon: widget.skipIcon,
                               addButton: widget.addButton,
                               currentPage: _currentPage,

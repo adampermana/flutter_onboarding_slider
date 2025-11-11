@@ -38,6 +38,7 @@ class BackgroundFinalButton extends StatelessWidget {
   final bool addButton;
   final Function? onPageFinish;
   final TextStyle buttonTextStyle;
+  final TextStyle buttonTextStyleFinish;
   final String? buttonText;
   final bool hasSkip;
   final Icon skipIcon;
@@ -71,24 +72,25 @@ class BackgroundFinalButton extends StatelessWidget {
     required this.totalPage,
     this.onPageFinish,
     this.buttonText,
+    required this.buttonTextStyleFinish,
     required this.buttonTextStyle,
     required this.addButton,
     required this.hasSkip,
     required this.skipIcon,
     this.finishButtonStyle = const FinishButtonStyle(),
-
-    // defaults (boleh diubah sesuai preferensi)
     this.showNextArrow = false,
     this.showStartArrow = false,
     this.nextArrowIcon = Icons.arrow_forward_rounded,
     this.startArrowIcon = Icons.arrow_forward_rounded,
     this.arrowColor,
-    this.arrowSize = 20,
+    this.arrowSize = 24,
     this.arrowGap = 8,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isFinishButton = currentPage == totalPage - 1;
+
     return addButton
         ? Container(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -97,28 +99,38 @@ class BackgroundFinalButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               shape: finishButtonStyle?.shape,
               elevation: finishButtonStyle?.elevation ?? 0,
-              foregroundColor: finishButtonStyle?.foregroundColor,
-              backgroundColor: finishButtonStyle?.backgroundColor,
+              foregroundColor:
+                  isFinishButton
+                      ? finishButtonStyle?.foregroundColor
+                      : Colors.black,
+              backgroundColor:
+                  isFinishButton
+                      ? finishButtonStyle?.backgroundColor
+                      : Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 15),
             ),
             onPressed:
                 () =>
-                    currentPage == totalPage - 1
+                    isFinishButton
                         ? onPageFinish?.call()
                         : _goToNextPage(context),
             child:
-                currentPage == totalPage - 1
+                isFinishButton
                     ? _buildLabelWithArrow(
                       label: buttonText ?? "Start",
                       showArrow: showStartArrow,
                       iconData: startArrowIcon,
                       context: context,
+                      textStyle: buttonTextStyleFinish,
+                      isFinishButton: true,
                     )
                     : _buildLabelWithArrow(
                       label: "Selanjutnya",
                       showArrow: showNextArrow,
                       iconData: nextArrowIcon,
                       context: context,
+                      textStyle: buttonTextStyle,
+                      isFinishButton: false,
                     ),
           ),
         )
@@ -131,36 +143,42 @@ class BackgroundFinalButton extends StatelessWidget {
     required bool showArrow,
     required IconData? iconData,
     required BuildContext context,
+    required TextStyle textStyle,
+    required bool isFinishButton,
   }) {
-    // Warna ikon prioritas:
-    // 1) arrowColor (jika di-set)
-    // 2) finishButtonStyle.foregroundColor (jika ada)
-    // 3) kontras otomatis dari background tombol
-    final bg = finishButtonStyle?.backgroundColor;
-    final autoContrast =
-        (bg == null)
-            ? Theme.of(context).colorScheme.onPrimary
-            : (ThemeData.estimateBrightnessForColor(bg) == Brightness.dark
-                ? Colors.white
-                : Colors.black87);
-    final Color resolvedIconColor =
-        arrowColor ?? finishButtonStyle?.foregroundColor ?? autoContrast;
+    // Tentukan warna icon berdasarkan jenis button
+    final Color iconColor;
+    if (isFinishButton) {
+      // Untuk finish button: gunakan arrowColor atau foregroundColor atau auto contrast
+      final bg = finishButtonStyle?.backgroundColor;
+      final autoContrast =
+          (bg == null)
+              ? Theme.of(context).colorScheme.onPrimary
+              : (ThemeData.estimateBrightnessForColor(bg) == Brightness.dark
+                  ? Colors.white
+                  : Colors.black87);
+      iconColor =
+          arrowColor ?? finishButtonStyle?.foregroundColor ?? autoContrast;
+    } else {
+      // Untuk next button: gunakan arrowColor atau default hitam
+      iconColor = arrowColor ?? Colors.black;
+    }
 
-    // Jika tak ingin panah → teks saja
+    // Jika tidak tampilkan arrow, return text saja
     if (!showArrow || iconData == null) {
       return Center(
-        child: Text(label, style: buttonTextStyle, textAlign: TextAlign.center),
+        child: Text(label, style: textStyle, textAlign: TextAlign.center),
       );
     }
 
-    // Row dibungkus Center agar konten benar-benar center di tombol lebar
+    // Tampilkan text + arrow
     return Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: buttonTextStyle),
+          Text(label, style: textStyle),
           SizedBox(width: arrowGap),
-          Icon(iconData, size: arrowSize, color: resolvedIconColor),
+          Icon(iconData, size: arrowSize, color: iconColor),
         ],
       ),
     );
