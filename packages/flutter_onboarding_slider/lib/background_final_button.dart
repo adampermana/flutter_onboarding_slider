@@ -1,7 +1,7 @@
 part of flutter_onboarding_slider;
 
 class FinishButtonStyle {
-  final ShapeBorder? shape;
+  final OutlinedBorder? shape;
 
   final double? elevation;
   final double? focusElevation;
@@ -18,7 +18,7 @@ class FinishButtonStyle {
   const FinishButtonStyle({
     this.shape = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(5.0),
+        Radius.circular(30.0),
       ),
     ),
     this.elevation = 0,
@@ -45,6 +45,7 @@ class BackgroundFinalButton extends StatelessWidget {
   final bool hasSkip;
   final Icon skipIcon;
   final FinishButtonStyle? finishButtonStyle;
+  final String? nextButtonText;
 
   BackgroundFinalButton({
     required this.currentPage,
@@ -57,89 +58,53 @@ class BackgroundFinalButton extends StatelessWidget {
     required this.hasSkip,
     required this.skipIcon,
     this.finishButtonStyle = const FinishButtonStyle(),
+    this.nextButtonText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return addButton
-        ? hasSkip
-            ? AnimatedContainer(
-                padding: currentPage == totalPage - 1
-                    ? EdgeInsets.symmetric(horizontal: 30)
-                    : EdgeInsets.all(0),
-                width: currentPage == totalPage - 1
-                    ? MediaQuery.of(context).size.width - 30
-                    : 60,
-                duration: Duration(milliseconds: 100),
-                child: currentPage == totalPage - 1
-                    ? FloatingActionButton.extended(
-                        shape: finishButtonStyle?.shape,
-                        elevation: finishButtonStyle?.elevation,
-                        focusElevation: finishButtonStyle?.focusElevation,
-                        hoverElevation: finishButtonStyle?.hoverElevation,
-                        highlightElevation:
-                            finishButtonStyle?.highlightElevation,
-                        disabledElevation: finishButtonStyle?.disabledElevation,
-                        foregroundColor: finishButtonStyle?.foregroundColor,
-                        backgroundColor: finishButtonStyle?.backgroundColor,
-                        focusColor: finishButtonStyle?.focusColor,
-                        hoverColor: finishButtonStyle?.hoverColor,
-                        splashColor: finishButtonStyle?.splashColor,
-                        onPressed: () => onPageFinish?.call(),
-                        label: buttonText == null
-                            ? SizedBox.shrink()
-                            : Text(
-                                buttonText!,
-                                style: buttonTextStyle,
-                              ),
-                      )
-                    : FloatingActionButton(
-                        shape: finishButtonStyle?.shape,
-                        elevation: finishButtonStyle?.elevation,
-                        focusElevation: finishButtonStyle?.focusElevation,
-                        hoverElevation: finishButtonStyle?.hoverElevation,
-                        highlightElevation:
-                            finishButtonStyle?.highlightElevation,
-                        disabledElevation: finishButtonStyle?.disabledElevation,
-                        foregroundColor: finishButtonStyle?.foregroundColor,
-                        backgroundColor: finishButtonStyle?.backgroundColor,
-                        focusColor: finishButtonStyle?.focusColor,
-                        hoverColor: finishButtonStyle?.hoverColor,
-                        splashColor: finishButtonStyle?.splashColor,
-                        onPressed: () => _goToNextPage(context),
-                        child: skipIcon,
-                      ),
-              )
-            : Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                width: MediaQuery.of(context).size.width - 30,
-                child: FloatingActionButton.extended(
-                  shape: finishButtonStyle?.shape,
-                  elevation: finishButtonStyle?.elevation,
-                  focusElevation: finishButtonStyle?.focusElevation,
-                  hoverElevation: finishButtonStyle?.hoverElevation,
-                  highlightElevation: finishButtonStyle?.highlightElevation,
-                  disabledElevation: finishButtonStyle?.disabledElevation,
-                  foregroundColor: finishButtonStyle?.foregroundColor,
-                  backgroundColor: finishButtonStyle?.backgroundColor,
-                  focusColor: finishButtonStyle?.focusColor,
-                  hoverColor: finishButtonStyle?.hoverColor,
-                  splashColor: finishButtonStyle?.splashColor,
-                  onPressed: () => onPageFinish?.call(),
-                  label: buttonText == null
-                      ? SizedBox.shrink()
-                      : Text(
-                          buttonText!,
-                          style: buttonTextStyle,
-                        ),
-                ))
-        : SizedBox.shrink();
+    if (!addButton) return const SizedBox.shrink();
+
+    final bool isLastPage = currentPage == totalPage - 1;
+    final String label =
+        isLastPage ? (buttonText ?? 'Get Started') : (nextButtonText ?? 'Next');
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      child: SizedBox(
+        width: double.infinity,
+        height: 54,
+        child: ElevatedButton(
+          onPressed: () {
+            if (isLastPage) {
+              onPageFinish?.call();
+            } else {
+              _goToNextPage(context);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor:
+                finishButtonStyle?.backgroundColor ?? const Color(0xFF6B2D8B),
+            foregroundColor: finishButtonStyle?.foregroundColor ?? Colors.white,
+            elevation: finishButtonStyle?.elevation ?? 0,
+            shape: finishButtonStyle?.shape ??
+                const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+          ),
+          child: Text(
+            label,
+            style: buttonTextStyle,
+          ),
+        ),
+      ),
+    );
   }
 
-  /// Switch to Next Slide using the Floating Action Button.
+  /// Switch to Next Slide.
   void _goToNextPage(BuildContext context) {
     pageController.nextPage(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.ease,
     );
   }

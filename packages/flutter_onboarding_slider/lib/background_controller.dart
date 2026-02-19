@@ -19,23 +19,13 @@ class BackgroundController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return indicatorAbove
-        ? Container(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildPageIndicator(context),
-            ),
-          )
-        : (currentPage == totalPage - 1) && hasFloatingButton
-            ? SizedBox.shrink()
-            : Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: _buildPageIndicator(context),
-                ),
-              );
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _buildPageIndicator(context),
+      ),
+    );
   }
 
   /// List of the slides Indicators.
@@ -52,17 +42,14 @@ class BackgroundController extends StatelessWidget {
   /// Slide Controller / Indicator.
   Widget _indicator(bool isActive, BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.only(
-          left: 8.0,
-          right: 8.0,
-          bottom: indicatorAbove ? indicatorPosition : 28),
+      duration: const Duration(milliseconds: 200),
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
       height: 8.0,
-      width: isActive ? 28.0 : 8.0,
+      width: isActive ? 24.0 : 8.0,
       decoration: BoxDecoration(
         color: isActive
-            ? controllerColor ?? Colors.white
-            : (controllerColor ?? Colors.white).withOpacity(0.5),
+            ? controllerColor ?? const Color(0xFF6B2D8B)
+            : (controllerColor ?? const Color(0xFF6B2D8B)).withOpacity(0.3),
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );

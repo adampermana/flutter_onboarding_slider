@@ -1,7 +1,7 @@
 part of flutter_onboarding_slider;
 
 class OnBoardingNavigationBar extends StatelessWidget
-    implements ObstructingPreferredSizeWidget {
+    implements PreferredSizeWidget {
   final int currentPage;
   final Function onSkip;
   final int totalPage;
@@ -27,49 +27,41 @@ class OnBoardingNavigationBar extends StatelessWidget
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(40);
-
-  @override
-  bool shouldFullyObstruct(BuildContext context) {
-    return true;
-  }
+  Size get preferredSize => Size.fromHeight(hideNavigationBar ? 0 : 44);
 
   @override
   Widget build(BuildContext context) {
-    if (hideNavigationBar) return SizedBox.shrink();
-    return CupertinoNavigationBar(
-      automaticallyImplyLeading: false,
-      leading: leading ?? SizedBox.shrink(),
-      middle: middle,
-      trailing: currentPage == totalPage - 1
-          ? finishButton == null
-              ? SizedBox.shrink()
-              : Container(
-                  color: Colors.transparent,
-                  child: TextButton(
-                    onPressed: () => onFinish?.call(),
-                    child: finishButton!,
-                  ),
-                )
-          : skipTextButton == null
-              ? SizedBox.shrink()
-              : Container(
-                  color: Colors.transparent,
-                  child: TextButton(
-                    onPressed: () {
-                      if (skipFunctionOverride == null) {
-                        onSkip();
-                      } else {
-                        skipFunctionOverride!();
-                      }
-                    },
-                    child: skipTextButton!,
-                  ),
-                ),
-      border: Border(
-        bottom: BorderSide(color: Colors.transparent),
+    if (hideNavigationBar) return const SizedBox.shrink();
+    return Container(
+      height: 44,
+      color: headerBackgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          leading ?? const SizedBox.shrink(),
+          if (middle != null) middle!,
+          currentPage == totalPage - 1
+              ? finishButton == null
+                  ? const SizedBox.shrink()
+                  : TextButton(
+                      onPressed: () => onFinish?.call(),
+                      child: finishButton!,
+                    )
+              : skipTextButton == null
+                  ? const SizedBox.shrink()
+                  : TextButton(
+                      onPressed: () {
+                        if (skipFunctionOverride == null) {
+                          onSkip();
+                        } else {
+                          skipFunctionOverride!();
+                        }
+                      },
+                      child: skipTextButton!,
+                    ),
+        ],
       ),
-      backgroundColor: headerBackgroundColor,
     );
   }
 

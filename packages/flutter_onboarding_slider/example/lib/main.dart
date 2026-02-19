@@ -1,5 +1,5 @@
-import 'package:example/screens/login_page.dart';
-import 'package:example/screens/register_page.dart';
+// import 'package:device_preview/device_preview.dart';
+// import 'package:example/screens/register_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,13 +10,20 @@ void main() {
 
   // Set orientation based on device type
   setPreferredOrientations().then((_) {
-    runApp(const MyApp());
+    runApp(
+      MyApp(),
+      // DevicePreview(
+      //   enabled: !kReleaseMode,
+      //   builder: (context) => MyApp(), // Wrap your app
+      // ),
+    );
   });
 }
 
 Future<void> setPreferredOrientations() async {
   // Get the current screen width
-  var screenWidth = WidgetsBinding.instance.window.physicalSize.width /
+  var screenWidth =
+      WidgetsBinding.instance.window.physicalSize.width /
       WidgetsBinding.instance.window.devicePixelRatio;
 
   // Determine if the device is a tablet or a phone
@@ -31,9 +38,7 @@ Future<void> setPreferredOrientations() async {
     ]);
   } else {
     // Lock to portrait mode for phones
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 }
 
@@ -50,7 +55,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHome extends StatelessWidget {
-  final Color kDarkBlueColor = const Color(0xFF053149);
+  final Color kDarkBlueColor = const Color.fromARGB(255, 255, 255, 255);
 
   const MyHome({super.key});
 
@@ -59,58 +64,29 @@ class MyHome extends StatelessWidget {
     return OnBoardingSlider(
       centerBackground: true,
       finishButtonText: 'Register',
+
+      finishButtonTextStyle: const TextStyle(
+        fontSize: 16,
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+      ),
       onFinish: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => const RegisterPage(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   CupertinoPageRoute(builder: (context) => const RegisterPage()),
+        // );
       },
-      finishButtonStyle: FinishButtonStyle(
-        backgroundColor: kDarkBlueColor,
-      ),
-      skipTextButton: Text(
-        'Skip',
-        style: TextStyle(
-          fontSize: 16,
-          color: kDarkBlueColor,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      trailing: Text(
-        'Login',
-        style: TextStyle(
-          fontSize: 16,
-          color: kDarkBlueColor,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      trailingFunction: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => const LoginPage(),
-          ),
-        );
-      },
-      controllerColor: kDarkBlueColor,
+      finishButtonStyle: FinishButtonStyle(backgroundColor: Colors.red),
+
+      controllerColor: Colors.red,
+      // controllerColorBold: Colors.white,
       totalPage: 3,
-      headerBackgroundColor: Colors.white,
+      // headerBackgroundColor: Colors.transparent,
       pageBackgroundColor: Colors.white,
       background: [
-        Image.asset(
-          'assets/slide_1.png',
-          height: 400,
-        ),
-        Image.asset(
-          'assets/slide_2.png',
-          height: 400,
-        ),
-        Image.asset(
-          'assets/slide_3.png',
-          height: 400,
-        ),
+        Image.asset('assets/slide_1.png', height: 400),
+        Image.asset('assets/slide_2.png', height: 400),
+        Image.asset('assets/slide_3.png', height: 400),
       ],
       backgroundImageAlignments: const [
         Alignment.center,
@@ -127,96 +103,84 @@ class MyHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
-              Text(
-                'On your way...',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kDarkBlueColor,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'to find the perfect looking Onboarding for your app?',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black26,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
-              Text(
-                'You’ve reached your destination.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kDarkBlueColor,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Sliding with animation',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black26,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
+              const SizedBox(height: 410),
               Text(
                 'Start now!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: kDarkBlueColor,
+                  color: Colors.black,
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               const Text(
                 'Where everything is possible and customize your onboarding.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black26,
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(height: 410),
+              Text(
+                'Start now!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Where everything is possible and customize your onboarding.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(height: 410),
+              Text(
+                'Start now!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Where everything is possible and customize your onboarding.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -225,6 +189,7 @@ class MyHome extends StatelessWidget {
           ),
         ),
       ],
+      headerBackgroundColor: Colors.white,
     );
   }
 }
