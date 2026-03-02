@@ -61,7 +61,7 @@ class BackgroundController extends StatelessWidget {
         bottom: indicatorAbove ? indicatorPosition : 28,
       ),
       height: 8.0,
-      width: 8.0,
+      width: 2.0,
       decoration: BoxDecoration(
         color: isActive
             ? colorIsActive ?? Colors.white
