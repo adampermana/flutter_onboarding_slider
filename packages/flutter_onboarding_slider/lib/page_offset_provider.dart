@@ -4,24 +4,12 @@ class PageOffsetNotifier with ChangeNotifier {
   double _offset = 0;
   double _page = 0;
 
-  late final VoidCallback _listener;
-  final PageController _pageController;
-
-  PageOffsetNotifier(this._pageController) {
-    _listener = () {
-      if (_pageController.hasClients) {
-        _offset = _pageController.offset;
-        _page = _pageController.page ?? 0;
-        notifyListeners();
-      }
-    };
-    _pageController.addListener(_listener);
-  }
-
-  @override
-  void dispose() {
-    _pageController.removeListener(_listener);
-    super.dispose();
+  PageOffsetNotifier(PageController pageController) {
+    pageController.addListener(() {
+      _offset = pageController.offset;
+      _page = pageController.page ?? 0;
+      notifyListeners();
+    });
   }
 
   double get offset => _offset;
