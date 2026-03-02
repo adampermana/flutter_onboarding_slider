@@ -27,8 +27,6 @@ class BackgroundController extends StatelessWidget {
               children: _buildPageIndicator(context),
             ),
           )
-        : (currentPage == totalPage - 1) && hasFloatingButton
-        ? SizedBox.shrink()
         : Container(
             padding: EdgeInsets.only(bottom: 10),
             child: Row(
