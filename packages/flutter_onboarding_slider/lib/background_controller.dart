@@ -3,7 +3,8 @@ part of flutter_onboarding_slider;
 class BackgroundController extends StatelessWidget {
   final int currentPage;
   final int totalPage;
-  final Color? controllerColor;
+  final Color? colorIsActive;
+  final Color? colorIsNotActive;
   final bool indicatorAbove;
   final double indicatorPosition;
   final bool hasFloatingButton;
@@ -11,7 +12,8 @@ class BackgroundController extends StatelessWidget {
   BackgroundController({
     required this.currentPage,
     required this.totalPage,
-    required this.controllerColor,
+    this.colorIsActive,
+    this.colorIsNotActive,
     required this.indicatorAbove,
     required this.hasFloatingButton,
     required this.indicatorPosition,
@@ -62,8 +64,8 @@ class BackgroundController extends StatelessWidget {
       width: 8.0,
       decoration: BoxDecoration(
         color: isActive
-            ? controllerColor ?? Colors.white
-            : (controllerColor ?? Colors.white).withOpacity(0.5),
+            ? colorIsActive ?? Colors.white
+            : colorIsNotActive ?? Colors.white.withOpacity(0.5),
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );

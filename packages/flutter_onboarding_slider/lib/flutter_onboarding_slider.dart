@@ -54,8 +54,11 @@ class OnBoardingSlider extends StatefulWidget {
   /// Text style for text inside last pages bottom button.
   final TextStyle finishButtonTextStyle;
 
-  /// Color of the bottom page indicators.
-  final Color? controllerColor;
+  /// Color of the active (current) page indicator dot.
+  final Color? colorIsActive;
+
+  /// Color of the inactive page indicator dots.
+  final Color? colorIsNotActive;
 
   /// Toggle bottom button.
   final bool addButton;
@@ -116,7 +119,8 @@ class OnBoardingSlider extends StatefulWidget {
     this.pageBackgroundGradient,
     this.finishButtonStyle,
     this.finishButtonText,
-    this.controllerColor,
+    this.colorIsActive,
+    this.colorIsNotActive,
     this.addController = true,
     this.centerBackground = false,
     this.addButton = true,
@@ -131,10 +135,7 @@ class OnBoardingSlider extends StatefulWidget {
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
-    this.skipIcon = const Icon(
-      Icons.arrow_forward,
-      color: Colors.white,
-    ),
+    this.skipIcon = const Icon(Icons.arrow_forward, color: Colors.white),
     this.indicatorAbove = false,
     this.indicatorPosition = 90,
     this.skipFunctionOverride,
@@ -161,7 +162,8 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
     return ChangeNotifierProvider(
       create: (BuildContext context) => PageOffsetNotifier(_pageController),
       child: Scaffold(
-        backgroundColor: widget.pageBackgroundColor ??
+        backgroundColor:
+            widget.pageBackgroundColor ??
             Theme.of(context).scaffoldBackgroundColor,
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -211,7 +213,8 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                         indicatorAbove: widget.indicatorAbove,
                         currentPage: _currentPage,
                         totalPage: widget.totalPage,
-                        controllerColor: widget.controllerColor,
+                        colorIsActive: widget.colorIsActive,
+                        colorIsNotActive: widget.colorIsNotActive,
                       )
                     : const SizedBox.shrink(),
                 // Full-width bottom button
