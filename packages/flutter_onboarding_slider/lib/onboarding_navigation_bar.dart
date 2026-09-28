@@ -27,11 +27,33 @@ class OnBoardingNavigationBar extends StatelessWidget
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(hideNavigationBar ? 0 : 44);
+  Size get preferredSize => const Size.fromHeight(44);
 
   @override
   Widget build(BuildContext context) {
-    if (hideNavigationBar) return const SizedBox.shrink();
+    final Widget trailingWidget;
+    if (currentPage == totalPage - 1) {
+      trailingWidget = finishButton == null
+          ? const SizedBox.shrink()
+          : TextButton(
+              onPressed: () => onFinish?.call(),
+              child: finishButton!,
+            );
+    } else {
+      trailingWidget = skipTextButton == null
+          ? const SizedBox.shrink()
+          : TextButton(
+              onPressed: () {
+                if (skipFunctionOverride == null) {
+                  onSkip();
+                } else {
+                  skipFunctionOverride!();
+                }
+              },
+              child: skipTextButton!,
+            );
+    }
+
     return Container(
       height: 44,
       color: headerBackgroundColor,
@@ -41,34 +63,9 @@ class OnBoardingNavigationBar extends StatelessWidget
         children: [
           leading ?? const SizedBox.shrink(),
           if (middle != null) middle!,
-          currentPage == totalPage - 1
-              ? finishButton == null
-                  ? const SizedBox.shrink()
-                  : TextButton(
-                      onPressed: () => onFinish?.call(),
-                      child: finishButton!,
-                    )
-              : skipTextButton == null
-                  ? const SizedBox.shrink()
-                  : TextButton(
-                      onPressed: () {
-                        if (skipFunctionOverride == null) {
-                          onSkip();
-                        } else {
-                          skipFunctionOverride!();
-                        }
-                      },
-                      child: skipTextButton!,
-                    ),
+          trailingWidget,
         ],
       ),
     );
-  }
-
-  bool get hideNavigationBar {
-    if (currentPage == totalPage - 1) {
-      return finishButton == null;
-    }
-    return skipTextButton == null;
   }
 }
