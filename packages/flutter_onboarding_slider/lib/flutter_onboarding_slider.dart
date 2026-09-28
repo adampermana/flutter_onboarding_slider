@@ -201,19 +201,6 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
           child: SafeArea(
             child: Column(
               children: [
-                // Optional top navigation bar (skip button area)
-                OnBoardingNavigationBar(
-                  skipFunctionOverride: widget.skipFunctionOverride,
-                  leading: widget.leading,
-                  middle: widget.middle,
-                  totalPage: widget.totalPage,
-                  currentPage: _currentPage,
-                  onSkip: _onSkip,
-                  headerBackgroundColor: widget.headerBackgroundColor,
-                  onFinish: widget.trailingFunction,
-                  finishButton: widget.trailing,
-                  skipTextButton: widget.skipTextButton,
-                ),
                 // Indicator positioned at top when isTop is true
                 if (widget.addController && widget.isTop)
                   Align(
@@ -230,6 +217,20 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                       colorIsNotActive: widget.colorIsNotActive,
                     ),
                   ),
+
+                // Optional top navigation bar (skip button area)
+                OnBoardingNavigationBar(
+                  skipFunctionOverride: widget.skipFunctionOverride,
+                  leading: widget.leading,
+                  middle: widget.middle,
+                  totalPage: widget.totalPage,
+                  currentPage: _currentPage,
+                  onSkip: _onSkip,
+                  headerBackgroundColor: widget.headerBackgroundColor,
+                  onFinish: widget.trailingFunction,
+                  finishButton: widget.trailing,
+                  skipTextButton: widget.skipTextButton,
+                ),
                 // Background + pageBodies take remaining space
                 Expanded(
                   child: Background(
