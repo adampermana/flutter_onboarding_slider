@@ -11,6 +11,22 @@ part 'background_image.dart';
 part 'onboarding_navigation_bar.dart';
 part 'page_offset_provider.dart';
 
+/// Style / type of the page indicator.
+enum IndicatorType {
+  /// Circular dot indicator (fixed size for active & inactive).
+  circle,
+
+  /// Expanding / pill indicator (active indicator expands horizontally).
+  expanding,
+
+  /// Rectangular bar indicator.
+  rectangle,
+
+  /// Full-width segmented bar (like Figma 476-1784).
+  /// Each page gets equal width, separated by 12px gaps.
+  line,
+}
+
 class OnBoardingSlider extends StatefulWidget {
   /// Number of total pages.
   final int totalPage;
@@ -93,7 +109,7 @@ class OnBoardingSlider extends StatefulWidget {
   /// icon on the skip button
   final Icon skipIcon;
 
-  /// is the indicator located on top of the screen
+  /// is the indicator located on top of the screen (legacy position flag)
   final bool indicatorAbove;
 
   /// distance of indicator from bottom
@@ -104,6 +120,15 @@ class OnBoardingSlider extends StatefulWidget {
 
   /// Text label for the "next" button on non-last pages (new style).
   final String? nextButtonText;
+
+  /// When true, indicator is positioned at the top; defaults to false (bottom).
+  final bool isTop;
+
+  /// Type/shape of the indicator; defaults to [IndicatorType.circle].
+  final IndicatorType indicatorType;
+
+  /// Custom style for the slide / next button on non-last pages.
+  final SlideButtonStyle? slideButtonStyle;
 
   OnBoardingSlider({
     required this.totalPage,
@@ -141,6 +166,9 @@ class OnBoardingSlider extends StatefulWidget {
     this.skipFunctionOverride,
     this.backgroundImageAlignments = const [],
     this.nextButtonText,
+    this.isTop = false,
+    this.indicatorType = IndicatorType.circle,
+    this.slideButtonStyle,
   });
 
   @override
@@ -162,8 +190,7 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
     return ChangeNotifierProvider(
       create: (BuildContext context) => PageOffsetNotifier(_pageController),
       child: Scaffold(
-        backgroundColor:
-            widget.pageBackgroundColor ??
+        backgroundColor: widget.pageBackgroundColor ??
             Theme.of(context).scaffoldBackgroundColor,
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -187,6 +214,22 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                   finishButton: widget.trailing,
                   skipTextButton: widget.skipTextButton,
                 ),
+                // Indicator positioned at top when isTop is true
+                if (widget.addController && widget.isTop)
+                  Align(
+                    alignment: Alignment.center,
+                    child: BackgroundController(
+                      isTop: widget.isTop,
+                      indicatorType: widget.indicatorType,
+                      hasFloatingButton: widget.hasFloatingButton,
+                      indicatorPosition: widget.indicatorPosition,
+                      indicatorAbove: widget.indicatorAbove,
+                      currentPage: _currentPage,
+                      totalPage: widget.totalPage,
+                      colorIsActive: widget.colorIsActive,
+                      colorIsNotActive: widget.colorIsNotActive,
+                    ),
+                  ),
                 // Background + pageBodies take remaining space
                 Expanded(
                   child: Background(
@@ -205,18 +248,22 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                     ),
                   ),
                 ),
-                // Dot indicators
-                widget.addController
-                    ? BackgroundController(
-                        hasFloatingButton: widget.hasFloatingButton,
-                        indicatorPosition: widget.indicatorPosition,
-                        indicatorAbove: widget.indicatorAbove,
-                        currentPage: _currentPage,
-                        totalPage: widget.totalPage,
-                        colorIsActive: widget.colorIsActive,
-                        colorIsNotActive: widget.colorIsNotActive,
-                      )
-                    : const SizedBox.shrink(),
+                // Indicator positioned at bottom when isTop is false
+                if (widget.addController && !widget.isTop)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: BackgroundController(
+                      isTop: widget.isTop,
+                      indicatorType: widget.indicatorType,
+                      hasFloatingButton: widget.hasFloatingButton,
+                      indicatorPosition: widget.indicatorPosition,
+                      indicatorAbove: widget.indicatorAbove,
+                      currentPage: _currentPage,
+                      totalPage: widget.totalPage,
+                      colorIsActive: widget.colorIsActive,
+                      colorIsNotActive: widget.colorIsNotActive,
+                    ),
+                  ),
                 // Full-width bottom button
                 widget.addButton
                     ? BackgroundFinalButton(
@@ -231,6 +278,7 @@ class _OnBoardingSliderState extends State<OnBoardingSlider> {
                         buttonText: widget.finishButtonText,
                         hasSkip: widget.hasSkip,
                         nextButtonText: widget.nextButtonText,
+                        slideButtonStyle: widget.slideButtonStyle,
                       )
                     : const SizedBox.shrink(),
               ],

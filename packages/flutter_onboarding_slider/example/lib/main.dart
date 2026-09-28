@@ -62,14 +62,28 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
+      isTop: true,
       centerBackground: true,
       finishButtonText: 'Register',
+      hasSkip: true,
+      skipTextButton: const Text(
+        'Skip',
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      skipFunctionOverride: () {},
 
       finishButtonTextStyle: const TextStyle(
         fontSize: 16,
         color: Colors.black,
         fontWeight: FontWeight.w500,
       ),
+      colorIsActive: Colors.black,
+      indicatorType: IndicatorType.line,
+      colorIsNotActive: Colors.black26,
       onFinish: () {
         // Navigator.push(
         //   context,
@@ -78,7 +92,7 @@ class MyHome extends StatelessWidget {
       },
       finishButtonStyle: FinishButtonStyle(backgroundColor: Colors.red),
 
-      controllerColor: Colors.red,
+      // controllerColor: Colors.red,
       // controllerColorBold: Colors.white,
       totalPage: 3,
       // headerBackgroundColor: Colors.transparent,
